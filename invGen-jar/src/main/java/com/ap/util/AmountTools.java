@@ -1,4 +1,4 @@
-package com.ap.tools;
+package com.ap.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,7 +31,7 @@ public class AmountTools {
 	 */
 	public static BigDecimal roundAmount(BigDecimal amount) throws RoundAmountException {
 		try {
-			logger.debug("roundAmount : {}", amount);
+			//logger.debug("roundAmount : {}", amount);
 			/* Specify the increment */ 
 			BigDecimal increment  		= new BigDecimal("0.05");  
 			/* Specify the rounding methode */

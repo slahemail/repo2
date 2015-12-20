@@ -3,11 +3,18 @@ package com.ap.test;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ap.dto.Invoice;
+import com.ap.dto.Tax;
 import com.ap.dto.products.Book;
 import com.ap.dto.products.Drug;
 import com.ap.dto.products.Food;
@@ -16,7 +23,8 @@ import com.ap.exceptions.RoundAmountException;
 import com.ap.exceptions.TaxCalcException;
 import com.ap.exceptions.InvGenerationException;
 import com.ap.services.TaxServices;
-import com.ap.tools.AmountTools;
+import com.ap.util.AmountTools;
+import com.ap.util.HibernateUtil;
 
 /**
  * TestCases - Junit tests class : 
@@ -27,6 +35,7 @@ import com.ap.tools.AmountTools;
  * 
  */
 public class TestCases {
+	private static Logger logger = LoggerFactory.getLogger( TestCases.class );
 	
 	/**
 	 * roundTest - Test for round tax amount.
@@ -57,9 +66,9 @@ public class TestCases {
 			assertEquals(AmountTools.roundAmount(new BigDecimal("1.01")),new BigDecimal("1.05"));
 			assertEquals(AmountTools.roundAmount(new BigDecimal("1.02")),new BigDecimal("1.05"));	
 		} catch (NumberFormatException e) {
-			System.out.println("Error : Please check the input number");
+			logger.error("Error : Please check the input number");
 		} catch (RoundAmountException e ) {
-			System.out.println(e.getMessage());
+			logger.error("roundTest - Error :" +  e.getMessage()); 
 		}
 	}
 	
@@ -72,7 +81,30 @@ public class TestCases {
 	 *  
 	 */
 	@Test
-	public void taxCalucationTest()  {    
+	public void taxCalucationTest()  {  
+		/* Start Hibernate session */
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();		 
+		Session session = sessionFactory.openSession();
+		
+		/* Initialization of all taxes  */
+		Tax taxSTD = new Tax("STD Tax", 10F);   
+		Tax taxIMP = new Tax("Imported Tax", 5F); 
+		
+		
+		session.beginTransaction();
+		session.save(taxSTD);
+		session.save(taxIMP);
+		session.getTransaction().commit();
+		
+		/* Get taxes list */
+		Query q = session.createQuery("From Tax ");        
+        List<Tax> resultList = q.list();  //TODO :check this warning 
+        System.out.println("num of employess:" + resultList.size());
+        for (Tax tax : resultList) {
+            System.out.println("next employee: " + tax);
+        }
+        
+		
 		/* Initialization of products */
 		Product product1 	= new Book("livre", new BigDecimal("12.49"), false);  //TODO_MED:2.0 ou 2,0
 		Product product2 	= new Product("CD musical", new BigDecimal("14.99"), false);   

@@ -10,7 +10,7 @@ import com.ap.dto.products.Product;
 import com.ap.exceptions.RoundAmountException;
 import com.ap.exceptions.InvGenerationException;
 import com.ap.services.TaxServices;
-import com.ap.tools.AmountTools;
+import com.ap.util.AmountTools;
 
 /**
  * MainTestRun - Main class to run some tests. 

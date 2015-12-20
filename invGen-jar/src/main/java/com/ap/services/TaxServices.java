@@ -12,7 +12,7 @@ import com.ap.dto.products.Product;
 import com.ap.exceptions.InvGenerationException;
 import com.ap.exceptions.PopulateProdTaxListException;
 import com.ap.exceptions.TaxCalcException;
-import com.ap.tools.AmountTools;
+import com.ap.util.AmountTools;
 
 /**
  * TaxServices Service : 
