@@ -32,21 +32,7 @@ public class Invoice  {
 		this.invoiceTotalAmount = new BigDecimal("0");
 	}
 		
-	/**
-	 * addPurchase - Add purchase to Invoice with quantity 
-	 * @param product
-	 * @param quantity 
-	 * @return 	
-	 *  
-	 */
-	public void addPurchase(Product product, int quantity) throws  InvGenerationException {	
-		if (quantity < 1 ) {
-			throw new InvGenerationException("Quantity should be > 1");  //TODO
-		}
-		Purchase purchase = new Purchase(product, quantity);
-		basket.add(purchase);		 
-	}
-	
+		
 	/**
 	 * @param  
 	 * @return basket
@@ -94,6 +80,4 @@ public class Invoice  {
 	public void setInvoiceTotalAmount(BigDecimal invoiceTotalAmount) {
 		this.invoiceTotalAmount = invoiceTotalAmount;
 	}
-	
-	
 }

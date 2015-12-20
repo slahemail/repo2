@@ -9,6 +9,7 @@ import com.ap.dto.Invoice;
 import com.ap.dto.Purchase;
 import com.ap.dto.Tax;
 import com.ap.dto.products.Product;
+import com.ap.exceptions.InvGenerationException;
 import com.ap.exceptions.PopulateProdTaxListException;
 import com.ap.exceptions.TaxCalcException;
 import com.ap.tools.AmountTools;
@@ -108,6 +109,22 @@ public interface TaxServices {
 			throw new TaxCalcException();			
 		}		
 	}	
+	
+	/**
+	 * addPurchase - Add purchase to Invoice with quantity 
+	 * @param product
+	 * @param quantity 
+	 * @return 	
+	 *  
+	 */
+	public static void addPurchase(Invoice invoice, Product product, int quantity) throws  InvGenerationException {	
+		if (quantity < 1 ) {
+			throw new InvGenerationException("Quantity should be > 1");  //TODO
+		}
+		Purchase purchase = new Purchase(product, quantity);
+		invoice.getBasket().add(purchase);		 
+	}
+	
 	
 	/**
 	 * generate - Display the invoice date ( Quantity, Purchase, Tax Amount, total Amount)

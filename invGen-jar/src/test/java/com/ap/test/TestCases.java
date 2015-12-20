@@ -99,9 +99,9 @@ public class TestCases {
 		
 		/* Add products in basket and populate taxes list for each product */
 		try {
-			i1.addPurchase(product1,1);
-			i1.addPurchase(product2,1);
-			i1.addPurchase(product3,1);		
+			TaxServices.addPurchase(i1,product1,1);
+			TaxServices.addPurchase(i1,product2,1);
+			TaxServices.addPurchase(i1,product3,1);		
 		}
 		catch (InvGenerationException e){
 			System.out.println(e.getMessage());  //TODO : Deal with Exception ...			
@@ -124,8 +124,8 @@ public class TestCases {
 		//	
 		Invoice i2 = new Invoice();		
 		try {
-			i2.addPurchase(product4,1);
-			i2.addPurchase(product5,1);
+			TaxServices.addPurchase(i2,product4,1);
+			TaxServices.addPurchase(i2,product5,1);
 		}
 		catch (InvGenerationException e){
 			System.out.println(e.getMessage());
@@ -153,10 +153,10 @@ public class TestCases {
 		//		
 		Invoice i3 = new Invoice();		
 		try {
-			i3.addPurchase(product6,1);
-			i3.addPurchase(product7,1);
-			i3.addPurchase(product8,1);
-			i3.addPurchase(product9,1);
+			TaxServices.addPurchase(i3,product6,1);
+			TaxServices.addPurchase(i3,product7,1);
+			TaxServices.addPurchase(i3,product8,1);
+			TaxServices.addPurchase(i3,product9,1);
 		}
 		catch (Exception e){
 			System.out.println("\n Add purchase exception \n"); //TODO : change the Exception
