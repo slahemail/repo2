@@ -3,6 +3,7 @@ package com.ap.services;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.ap.dto.Invoice;
 import com.ap.dto.Purchase;
@@ -107,4 +108,17 @@ public interface TaxServices {
 			throw new TaxCalcException();			
 		}		
 	}	
+	
+	/**
+	 * generate - Display the invoice date ( Quantity, Purchase, Tax Amount, total Amount)
+	 * @param   
+	 * @return 	
+	 */	
+	public static void generate(Invoice invoice) { 		
+		for(Purchase purchase : invoice.getBasket()) {
+			System.out.println(purchase.getQuantity() + " " +   purchase.getProduct().getDescription() + " à " + String.format(Locale.ENGLISH, "%.2f",purchase.getPurchaseAmountTaxInc()) + "\n" );		    
+		}
+		System.out.println("Montant des taxes : " + String.format(Locale.ENGLISH, "%.2f",invoice.getInvoiceTaxAmount()) + "\n");
+		System.out.println("Total : " + String.format(Locale.ENGLISH, "%.2f",invoice.getInvoiceTotalAmount()) + "\n");		
+	}
 }

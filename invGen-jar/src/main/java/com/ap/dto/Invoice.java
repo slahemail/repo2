@@ -95,16 +95,5 @@ public class Invoice  {
 		this.invoiceTotalAmount = invoiceTotalAmount;
 	}
 	
-	/**
-	 * generate - Display the invoice date ( Quantity, Purchase, Tax Amount, total Amount)
-	 * @param   
-	 * @return 	
-	 */	
-	public void generate() { 		
-		for(Purchase purchase : basket) {
-			System.out.println(purchase.getQuantity() + " " +   purchase.getProduct().getDescription() + " à " + String.format(Locale.ENGLISH, "%.2f",purchase.getPurchaseAmountTaxInc()) + "\n" );		    
-		}
-		System.out.println("Montant des taxes : " + String.format(Locale.ENGLISH, "%.2f",this.getInvoiceTaxAmount()) + "\n");
-		System.out.println("Total : " + String.format(Locale.ENGLISH, "%.2f",this.getInvoiceTotalAmount()) + "\n");		
-	}
+	
 }

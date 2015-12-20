@@ -175,13 +175,13 @@ public class TestCases {
 		System.out.println("\n### OUTPUT\n\n");
 		/* Display the invoice data for test 1*/
 		System.out.println("#### OutPut 1\n\n");		
-		i1.generate();
+		TaxServices.generate(i1);
 		/* Display the invoice data for test 2 */	
 		System.out.println("#### OutPut 2\n\n");
-		i2.generate();
+		TaxServices.generate(i2);
 		/* Display the invoice data for test 3*/
 		System.out.println("#### OutPut 3\n\n");
-		i3.generate();
+		TaxServices.generate(i3);
 		
 		
 		/* Validate the test 1 */
