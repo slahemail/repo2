@@ -3,6 +3,9 @@ package com.ap.tools;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ap.exceptions.RoundAmountException;
 
 /**
@@ -16,7 +19,7 @@ import com.ap.exceptions.RoundAmountException;
  * 
  */
 public class AmountTools {
-	
+	private static Logger logger = LoggerFactory.getLogger( AmountTools.class );
 	/**
 	 * roundAmount - Populates taxes list for the product.
 	 * 
@@ -28,6 +31,7 @@ public class AmountTools {
 	 */
 	public static BigDecimal roundAmount(BigDecimal amount) throws RoundAmountException {
 		try {
+			logger.debug("roundAmount : {}", amount);
 			/* Specify the increment */ 
 			BigDecimal increment  		= new BigDecimal("0.05");  
 			/* Specify the rounding methode */
