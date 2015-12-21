@@ -103,7 +103,7 @@ public class TestCases {
         for (Tax tax : resultList) {
             logger.debug("next employee: {}", tax.getTaxDesc());
         }
-        
+                
 		
 		/* Initialization of products */
 		Product product1 	= new Book("livre", new BigDecimal("12.49"), false);  //TODO_MED:2.0 ou 2,0
