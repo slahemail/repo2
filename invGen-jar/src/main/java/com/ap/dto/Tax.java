@@ -92,7 +92,7 @@ public class Tax {
 		this.taxDesc = taxDesc;
 	}	 
 	
-	/* How to create in DB */
+	/* How to create in DB */	
 	/*
 	    CREATE TABLE public."Tax"
 		(

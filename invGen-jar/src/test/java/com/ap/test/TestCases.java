@@ -101,7 +101,7 @@ public class TestCases {
         List<Tax> resultList = q.list();  //TODO :check this warning 
         System.out.println("num of employess:" + resultList.size());
         for (Tax tax : resultList) {
-            System.out.println("next employee: " + tax);
+            logger.debug("next employee: {}", tax.getTaxDesc());
         }
         
 		
