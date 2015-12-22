@@ -7,7 +7,7 @@
      <!-- Database connection settings -->
      <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
        <property name="hibernate.connection.url">
-            jdbc:hsqldb:file:db\filedb;hsqldb.write_delay=false
+            jdbc:hsqldb:file:..\db\filedb;hsqldb.write_delay=false
         </property>
      <property name="connection.username">sa</property>
      <property name="connection.password"></property>
