@@ -36,6 +36,8 @@ public class TestCases {
 				
 		// Integer List	 
 		List<Integer> list3 = Arrays.asList(1,7,0,4,5);
+		
+		// TODO : will be changed by stream partition
 		System.out.println("Integer Partition ======================");
 		System.out.println(partition.partitionOldWay(list3, 4));
 		
