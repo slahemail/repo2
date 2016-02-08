@@ -1,12 +1,11 @@
 package com.ad.partition;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 
 /**
@@ -17,17 +16,24 @@ import java.util.stream.IntStream;
  * @date   07/02/2016
  * 
  */
-public class PartitionImp implements Partition, Serializable {
-	public List<List<Integer>> partitionOldWay(List<Integer> inList, int segment) {
+public class PartitionImp <T> implements Partition<T>, Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/* Integer List Partition */
+	public List<List<T>> partitionOldWay(List<T> inList, int segment) {
 		// TODO : add exceptions and comments 
 		// TODO : deal with null cases 
 		// TODO : deal with min max 
-		List<List<Integer>> motherList = new ArrayList<List<Integer>>();
+		List<List<T>> motherList = new ArrayList<List<T>>();
 		try {		
 		  int i,j;
 		  
 		  for( i=0; i< inList.size();    ) {
-			  List<Integer> childList = new ArrayList<Integer>();			  
+			  List<T> childList = new ArrayList<T>();			  
 			  for (j=0 ; j< segment; j++ ) {
 				  if (i+j < inList.size())
 					  childList.add(inList.get(i+j));
@@ -43,26 +49,29 @@ public class PartitionImp implements Partition, Serializable {
 		return motherList;		
 	}
 
-	public Collector<String, List<List<String>>, List<List<String>>> streamPartition(int sep) {		
-		 AtomicInteger index = new AtomicInteger(0);		
-		 final List<String> current = new ArrayList<>();		
-		 return Collector.of(
-				  			() -> new ArrayList<List<String>>(),		    		
-				  			(l, elem) -> {  
-				                        	if(  !index.compareAndSet(sep, 0)  )  {
-				                        		current.add(elem);
-				                        		index.incrementAndGet()	;	  
-			                	            } else  {				                	            	
-			                	            	l.add(new ArrayList<>(current)); current.clear();			
-			                	            }					                        	                      	            	                    	            
-	                        	         },
-	                        (l1, l2) -> {throw new RuntimeException("Should not run this in parallel");},
-	                        l -> {if(current.size() != 0) l.add(current); return l;}
-	                        );	    
+	
+	@Override
+	public Collector<T, List<List<T>>, List<List<T>>> streamPartition(int sep) {
+		AtomicInteger index = new AtomicInteger(0);		
+		final List<T> current = new ArrayList<>();	
+		return Collector.of( 
+							() -> new ArrayList<List<T>>(),
+							(l, elem) -> {
+								System.out.println("sep = " + sep + " | index = " + index);
+								current.add(elem); index.incrementAndGet()	;
+	                        	if(  index.compareAndSet(sep, 0)  )  {	                        		
+	                        		l.add(new ArrayList<>(current)); 
+                	            	current.clear();          	  
+                	            }  	                        	
+                	         },
+                	         (l1, l2) -> {throw new RuntimeException("");},
+                	         l -> {if(current.size() != 0) l.add(current); return l;}
+				);		
 	}
 		
+	
+	/* Partition by Index */
 	public <T> List<T> getByIndices(List<T> list, List<Integer> indexes) {		
 	    return indexes.stream().map(list::get).collect(Collectors.toList());	    
 	}
-	
 }
