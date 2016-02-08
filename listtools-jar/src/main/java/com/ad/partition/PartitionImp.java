@@ -57,7 +57,7 @@ public class PartitionImp <T> implements Partition<T>, Serializable {
 		return Collector.of( 
 							() -> new ArrayList<List<T>>(),
 							(l, elem) -> {
-								System.out.println("sep = " + sep + " | index = " + index);
+								/*System.out.println("sep = " + sep + " | index = " + index);*/
 								current.add(elem); index.incrementAndGet()	;
 	                        	if(  index.compareAndSet(sep, 0)  )  {	                        		
 	                        		l.add(new ArrayList<>(current)); 

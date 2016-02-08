@@ -45,21 +45,29 @@ public class TestCases {
 		System.out.println(outputSplittedtList);
 		
 		//---------------------------------------------------------
-		/*
+		
 		List<List<Integer>> expectedSplittedList = new ArrayList<List<Integer>>();
-		expectedSplittedList.add(Arrays.asList(1,2));
+		expectedSplittedList.add(Arrays.asList(1,6));
 		expectedSplittedList.add(Arrays.asList(3,4));
 		expectedSplittedList.add(Arrays.asList(5));
 		
-		
 		final String listJoinSeparator = " | ";
 		final String joinSeparator = ", ";
+		 
+				List<Integer> flat = 
+						expectedSplittedList.stream()
+				        .flatMap(l -> l.stream())
+				        .collect(Collectors.toList());
+		
+		
+		
 
 	    String firstResult = outputSplittedtList 
 	            .stream()
-	            .map(outputSplittedtList::get)
+	            .map(flat::get)
 	            .collect(Collectors.joining(joinSeparator));
 
+	    /*
 	    String secondResult = myClassList
 	            .stream()
 	            .map(MyClass::getMyString)
