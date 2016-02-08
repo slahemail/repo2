@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
  */
 public class PartitionImp implements Partition, Serializable {
 	public List<List<Integer>> partitionOldWay(List<Integer> inList, int segment) {
-		// TODO : add excptions and comments 
+		// TODO : add exceptions and comments 
 		// TODO : deal with null cases 
 		// TODO : deal with min max 
 		List<List<Integer>> motherList = new ArrayList<List<Integer>>();
@@ -48,7 +48,8 @@ public class PartitionImp implements Partition, Serializable {
 		 final List<String> current = new ArrayList<>();		
 		 return Collector.of(
 				  			() -> new ArrayList<List<String>>(),		    		
-				  			(l, elem) -> {  if(  !index.compareAndSet(sep, 0)  )  {
+				  			(l, elem) -> {  
+				                        	if(  !index.compareAndSet(sep, 0)  )  {
 				                        		current.add(elem);
 				                        		index.incrementAndGet()	;	  
 			                	            } else  {				                	            	
