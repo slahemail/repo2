@@ -13,8 +13,9 @@ import java.util.stream.Collector;
  */
 public interface Partition <T>{	
 	/* List Partition */
-	public List<List<T>> partitionOldWay(List<T> inList, int segment) ;  // jdk <= 8
-	public Collector<T, List<List<T>>, List<List<T>>> streamPartition(int sep);  // jdk = 8 
+	public Collector<T, List<List<T>>, List<List<T>>> streamListPartition(int sep);  // jdk = 8 
+	public List<List<T>> listPartition(List<T> inList, int segment) ;  // jdk <= 8
+	public String concatWithSep(List<List<T>> l);  
 	
 	/* Partition of a List by Index */
 	public <T> List<T> getByIndices(List<T> list, List<Integer> indexes);	

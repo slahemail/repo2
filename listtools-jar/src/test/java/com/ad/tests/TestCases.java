@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import com.ad.partition.Partition;
-import com.ad.partition.PartitionImp;
+import com.ad.partition.impl.PartitionImpl;
 
  
 
@@ -23,63 +23,132 @@ import com.ad.partition.PartitionImp;
  * 
  */
 public class TestCases {
- 
+		
+	/**
+	 * 
+	 * Test function for Partition of Integer List with stream functions
+	 * JDK >= 8
+	 * 
+	 * @param 
+	 * @return 
+	 * 
+	 */
 	@Test
-	public void partitionTest()  { 
+	public void partitionIntListByStreamTest()  {
+		System.out.println("partitionIntListByStreamTest() Starts ======================"); 
 		//TODO : add log
-		Partition<Integer> partition = new PartitionImp<Integer>(); //TODO : Separate Interface and class  
+		Partition<Integer> partition = new PartitionImpl<Integer>(); //TODO : Separate Interface and class  
 				
 		/* Integer List */	 
-		List<Integer> inputIntlist = Arrays.asList(1,2,3,4,5);
+		List<Integer> inputIntlist = Arrays.asList(1,6,3,4,5,null,7);
+		System.out.println("In :: " + inputIntlist);
+		
+		
 		List<List<Integer>>  outputSplittedtList;
+
+
+		outputSplittedtList = inputIntlist.stream().collect(partition.streamListPartition(2));		
+		System.out.println("Out :: " + outputSplittedtList);
 		
-		/* Integer List - jdk <= 8 */	 
-		System.out.println("Integer Partition jdk <= 8 ======================");
-		outputSplittedtList = partition.partitionOldWay(inputIntlist, 2);
-		System.out.println(outputSplittedtList);
-		
-		
-		/* Integer List - jdk = 8 */
-		System.out.println("Integer Partition jdk 8 ======================");
-		outputSplittedtList = inputIntlist.stream().collect(partition.streamPartition(2));		
-		System.out.println(outputSplittedtList);
-		
-		//---------------------------------------------------------
-		
+		//Expected Splitted List	
 		List<List<Integer>> expectedSplittedList = new ArrayList<List<Integer>>();
 		expectedSplittedList.add(Arrays.asList(1,6));
 		expectedSplittedList.add(Arrays.asList(3,4));
-		expectedSplittedList.add(Arrays.asList(5));
+		expectedSplittedList.add(Arrays.asList(5,null));
+		expectedSplittedList.add(Arrays.asList(7));		
 		
-		final String listJoinSeparator = " | ";
-		final String joinSeparator = ", ";
-		 
-				List<Integer> flat = 
-						expectedSplittedList.stream()
-				        .flatMap(l -> l.stream())
-				        .collect(Collectors.toList());
-		
-		
-		
-
-	    String firstResult = outputSplittedtList 
-	            .stream()
-	            .map(flat::get)
-	            .collect(Collectors.joining(joinSeparator));
-
-	    /*
-	    String secondResult = myClassList
-	            .stream()
-	            .map(MyClass::getMyString)
-	            .collect(Collectors.joining(joinSeparator));
-
-	    //Just compare them using equals:
-	    System.out.println(firstResult.equals(secondResult));
-	    */
-		//---------------------------------------------------------
-		
+		/* Convert two lists into string and compare them */
+		String expectedSplittedListString 	= partition.concatWithSep(expectedSplittedList);
+		String outputSplittedtListString 	= partition.concatWithSep(outputSplittedtList);
+		assertEquals(expectedSplittedListString, outputSplittedtListString);		
+	}
+	
+	/**
+	 * 
+	 * Test function for Partition of Integer List 
+	 * JDK <= 8
+	 * 
+	 * @param 
+	 * @return 
+	 * 
+	 */
+	@Test
+	public void partitionIntListTest()  { 
+		System.out.println("partitionIntListTest() Starts ======================"); 
+		Partition<Integer> partition = new PartitionImpl<Integer>(); //TODO : Separate Interface and class  
 				
+		/* Integer List */	 
+		List<Integer> inputIntlist = Arrays.asList(1,6,3,4,5,null,7);
+		System.out.println("In :: " + inputIntlist);
+		
+		
+		List<List<Integer>>  outputSplittedtList;
+
+
+		outputSplittedtList =  partition.listPartition(inputIntlist, 2);		
+		System.out.println("Out :: " + outputSplittedtList);
+		
+		//Expected Splitted List	
+		List<List<Integer>> expectedSplittedList = new ArrayList<List<Integer>>();
+		expectedSplittedList.add(Arrays.asList(1,6));
+		expectedSplittedList.add(Arrays.asList(3,4));
+		expectedSplittedList.add(Arrays.asList(5,null));
+		expectedSplittedList.add(Arrays.asList(7));		
+		
+		/* Convert two lists into string and compare them */
+		String expectedSplittedListString 	= partition.concatWithSep(expectedSplittedList);
+		String outputSplittedtListString 	= partition.concatWithSep(outputSplittedtList);
+		assertEquals(expectedSplittedListString, outputSplittedtListString);		
+	}
+	
+	/**
+	 * 
+	 * Test function for Partition of String List with stream functions
+	 * JDK >= 8
+	 * 
+	 * @param 
+	 * @return 
+	 * 
+	 */
+	@Test
+	public void partitionStringListByStreamTest()  { 
+		System.out.println("partitionStringListTest() Starts ======================"); 
+		Partition<String> stringPartition = new PartitionImpl<String>(); //TODO : Separate Interface and Impl  
+
 		/* String List */
+		List<String> inputStringList = new ArrayList<String>(); 
+		inputStringList.add("str1");
+		inputStringList.add("str2");
+		inputStringList.add("null");
+		inputStringList.add("str4");		
+		inputStringList.add("str5");
+		inputStringList.add("str6");		
+		inputStringList.add("str7");
+		inputStringList.add("str8");			
+		inputStringList.add("str9");	//TODO : test with null values		
+		System.out.println("In :: " + inputStringList);
+		
+		List<List<String>> outPutStringList =  inputStringList.stream().collect(stringPartition.streamListPartition(2));
+		System.out.println("Out :: " + outPutStringList);
+		
+		//Expected Splitted List	
+		List<List<String>> expectedSplittedList = new ArrayList<List<String>>();
+		expectedSplittedList.add(Arrays.asList("str1","str2"));
+		expectedSplittedList.add(Arrays.asList(null,"str4"));
+		expectedSplittedList.add(Arrays.asList("str5","str6"));
+		expectedSplittedList.add(Arrays.asList("str7","str8"));
+		expectedSplittedList.add(Arrays.asList("str9"));
+				
+		/* Convert two lists into string and compare them */
+		String expectedSplittedListString 	= stringPartition.concatWithSep(expectedSplittedList);
+		String outputSplittedtListString 	= stringPartition.concatWithSep(outPutStringList);
+		assertEquals(expectedSplittedListString, outputSplittedtListString);	
+	}
+	
+	/* Partition by index ( other needs , other then the exercise )
+	@Test
+	public void partitionListByIndexTest()  { 
+		
 		List<String> stringList = new ArrayList<String>(); 
 		stringList.add("str1");
 		stringList.add("str2");
@@ -90,24 +159,11 @@ public class TestCases {
 		stringList.add("str7");
 		stringList.add("str8");			
 		stringList.add("str9");	
-		
-		
-		System.out.println("String streamPartition jdk <= 8 ======================");
-		Partition<String> partitionString = new PartitionImp<String>(); //TODO : Separate Interface and class  
-		List<List<String>> l3 =  partitionString.partitionOldWay(stringList, 2) ;
-		System.out.println(l3);
-		
-		System.out.println("String streamPartition jdk 8 ======================");
-		List<List<String>> l4 = stringList.stream().collect(partitionString.streamPartition(2));
-		System.out.println(l4);
-		
-					
-		/* Partition by index ( other needs , other then the exercise ) */	
 		System.out.println("String by index ======================");
 		List<Integer> indexes = Arrays.asList(0,2,4);	
 		System.out.println(indexes.stream().map(stringList::get).collect(Collectors.toList()));
-						
-		/*
+		
+		 
 		// TODO : compare two sorted list 
 		Collection<String> listOne = new ArrayList(Arrays.asList("a","b", "c", "c", "d", "e", "f", "g"));
 		Collection<String> listTwo = new ArrayList(Arrays.asList("a","b", "c", "e", "d", "f", "g"));
@@ -120,12 +176,8 @@ public class TestCases {
 		//
 		System.out.println( sourceList );
 		System.out.println( destinationList );
-		*/
-		
-		
-		// TODO : compare results ... 
-		assertEquals("true", "true");
+			
 	}
-	 
+	*/
 }
  
