@@ -1,7 +1,5 @@
 package com.ad.tools;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Tools - Other list tools. 
