@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
 
 import org.junit.Test;
 
@@ -39,14 +40,22 @@ public class TestCases {
 		Partition<Integer> partition = new PartitionImpl<Integer>(); //TODO : Separate Interface and class  
 				
 		/* Integer List */	 
-		List<Integer> inputIntlist = Arrays.asList(1,6,3,4,5,null,7);
+		List<Integer> inputIntlist = Arrays.asList(1,6,3,4,5,7);
+		
+		//inputIntlist.stream().filter(i -> i != null ).sorted((i1,i2)->i1.compareTo(i2)).forEach(System.out::println);
+		inputIntlist.stream()
+		.filter(i -> i != null )
+        .map(i-> i*2)        
+        .forEach(System.out::println);
+		  
+		  
 		System.out.println("In :: " + inputIntlist);
 		
 		
 		List<List<Integer>>  outputSplittedtList;
 
 
-		outputSplittedtList = inputIntlist.stream().collect(partition.streamListPartition(2));		
+		outputSplittedtList = partition.streamListPartition(inputIntlist, 2);		
 		System.out.println("Out :: " + outputSplittedtList);
 		
 		//Expected Splitted List	
@@ -127,7 +136,7 @@ public class TestCases {
 		inputStringList.add("str9");	//TODO : test with null values		
 		System.out.println("In :: " + inputStringList);
 		
-		List<List<String>> outPutStringList =  inputStringList.stream().collect(stringPartition.streamListPartition(2));
+		List<List<String>> outPutStringList =  stringPartition.streamListPartition(inputStringList, 2); 
 		System.out.println("Out :: " + outPutStringList);
 		
 		//Expected Splitted List	

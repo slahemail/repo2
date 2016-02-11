@@ -34,7 +34,11 @@ public class PartitionImpl <T> implements Partition<T>, Serializable {
 	 * @return splitted list
 	 * 
 	 */
-	public List<List<T>> listPartition(List<T> inList, int segment) {
+	public List<List<T>> listPartition(List<T> inList, Integer size) {
+		if (verifieListAndPram(inList, size)) {
+			return null; //TODO :  change to Exception ?
+		}			 
+		
 		// TODO : add exceptions and comments 
 		// TODO : deal with null cases 
 		// TODO : deal with min max 
@@ -44,7 +48,7 @@ public class PartitionImpl <T> implements Partition<T>, Serializable {
 		  
 		  for( i=0; i< inList.size();    ) {
 			  List<T> childList = new ArrayList<T>();			  
-			  for (j=0 ; j< segment; j++ ) {
+			  for (j=0 ; j< size; j++ ) {
 				  if (i+j < inList.size())
 					  childList.add(inList.get(i+j));
 				  else 
@@ -69,10 +73,13 @@ public class PartitionImpl <T> implements Partition<T>, Serializable {
 	 * 
 	 */
 	@Override
-	public Collector<T, List<List<T>>, List<List<T>>> streamListPartition(int size) {
+	public List<List<T>> streamListPartition(List<T> inList, Integer size) {
+		if (verifieListAndPram(inList, size)) {
+			return null; //TODO :  change to Exception ?
+		}
 		AtomicInteger index = new AtomicInteger(0);		
 		final List<T> current = new ArrayList<>();	
-		return Collector.of( 
+		return inList.stream().collect(Collector.of( 
 							() -> new ArrayList<List<T>>(),
 							(l, elem) -> {
 								/* System.out.println("sep = " + sep + " | index = " + index); */
@@ -84,7 +91,7 @@ public class PartitionImpl <T> implements Partition<T>, Serializable {
                 	         },
                 	         (l1, l2) -> {throw new RuntimeException("");},
                 	         l -> {if(current.size() != 0) l.add(current); return l;}
-				);		
+				));		
 	}
 		
 	/**
@@ -97,6 +104,8 @@ public class PartitionImpl <T> implements Partition<T>, Serializable {
 	 * 
 	 */
 	public String concatWithSep(List<List<T>> listOfList) {		
+	 
+		//TODO :  Check if listOfList is null 		
 		// TODO : exceptions	 
 		//String concatedString = null;
 		
@@ -128,8 +137,24 @@ public class PartitionImpl <T> implements Partition<T>, Serializable {
 	 * @return splitted list
 	 * 
 	 */
-	public <T> List<T> getByIndices(List<T> list, List<Integer> indexes) {		
+	public <T> List<T> getByIndices(List<T> list, List<Integer> indexes) {
+		// TODO : Exceptions 
+		// TODO : Min, Max and Null 
 	    return indexes.stream().map(list::get).collect(Collectors.toList());	    
+	}
+	
+	public boolean verifieListAndPram(List<T> inList, Integer size) {		
+		try {
+			if (size != null && inList != null 
+			&&  size <= inList.size() && size > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		
 	}
 	
 	// TODO : concatWithSep with streams 
